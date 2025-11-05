@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<diagram version="1" name="Facebook Public ERD">
+	<entities>
+		<data-source id="postgres-jdbc-199de246511-11dd2bb6333942ad">
+			<entity id="1" name="dummy_table" fq-name="public.dummy_table">
+				<path name="public"/>
+				<path name="facebook_db"/>
+			</entity>
+			<entity id="2" name="users" fq-name="public.users">
+				<path name="public"/>
+				<path name="facebook_db"/>
+			</entity>
+		</data-source>
+	</entities>
+	<relations/>
+</diagram>
