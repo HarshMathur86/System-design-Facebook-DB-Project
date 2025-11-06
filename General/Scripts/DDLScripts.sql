@@ -50,19 +50,55 @@ create table friends(
 )
 
 -- linking via foreign key
+-- https://neon.com/postgresql/postgresql-tutorial/postgresql-foreign-key
+/*
+[CONSTRAINT fk_name]
+   FOREIGN KEY(fk_columns)
+   REFERENCES parent_table(parent_key_columns)
+   [ON DELETE delete_action]
+   [ON UPDATE update_action]
+   
+   PostgreSQL supports the following actions:
 
-alter table friends add constraint 
+		SET NULL
+		SET DEFAULT
+		RESTRICT
+		NO ACTION - default
+		CASCADE
+   
+*/
+
+ -- add multiple column foreign key 
+alter table friends 
+add constraint fk_user_id
+foreign key (user_id) 
+references users(id) 
+on delete cascade;
+
+alter table friends 
+add constraint fk_col_friend_user_id
+foreign key (friend_user_id) 
+references users(id) 
+on delete cascade;
+
+-- testing insert of non existence user_id
+
+insert into friends (user_id, friend_user_id) values (500, 1000);
 
 
+/*
+ * Getting 
+ * SQL Error [23503]: ERROR: insert or update on table "friends" violates foreign key constraint "fk_user_id"
+  Detail: Key (user_id)=(500) is not present in table "users".
+ * 
+ */
 
 
+-- composite key for user_id and friend_user_id
 
-
-
-
-
-
-
+alter table friends 
+add constraint pk_id_friends_table
+primary key (user_id, friend_user_id);
 
 
 
