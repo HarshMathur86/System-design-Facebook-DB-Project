@@ -61,7 +61,28 @@ CREATE TYPE request_status AS ENUM ('ACCEPTED', 'REJECTED', 'PENDING');
 
 
 create table friends(
-	user_id bigint
+	user_id bigint, -- user_id will be the requester by deault
+	friend_user_id bigint,
+	request_status request_status default 'PENDING',
+	request_date timestamp default CURRENT_TIMESTAMP
 )
+
+-- linking via foreign key
+
+alter table friends add constraint 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
