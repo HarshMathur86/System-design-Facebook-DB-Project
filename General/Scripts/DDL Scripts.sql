@@ -111,8 +111,41 @@ primary key (user_id, friend_user_id);
 
 
 
--- Login
+-- Posts table
+CREATE TABLE posts (
+	post_id SERIAL PRIMARY KEY, 
+	author_user_id bigint not null, 
+	post_message VARCHAR(500) NOT NULL, --in HTML enbedded text for hyperlink suppport
+	posted_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+	constraint fk_author_user_id foreign key (author_user_id) references users(id) on delete cascade
+);
+
+-- Reaction table
+--reaction_type rnum
+CREATE TYPE reaction_type_enum AS ENUM ('LIKE', 'EMOJI'); -- this way new feature reaction acan added in future like upvotes for example
+
+-- alter type reaction_type rename to reaction_type_enum;
 
 
+CREATE TABLE post_reactions (
+	post_id bigint not null, 
+	reactor_user_id bigint not null, 
+	reaction_type reaction_type_enum NOT NULL, --in HTML enbedded text for hyperlink suppport
+	emoji varchar(2), -- stored in UTF-8 encoding
+	constraint fk_post_id_reaction foreign key (post_id) references posts(post_id) on delete cascade,
+	constraint fk_reactor_user_id_reaction foreign key (reactor_user_id) references users(id)
+	
+);
+
+alter table post_reactions drop constraint fk_reactor_user_id_reaction;
 
 
+-- comments only - L1 (Not integrating with reaction table for future to add L2 level comment)
+
+CREATE TABLE post_comments (
+	post_id bigint not null, 
+	commenter_user_id bigint not null, 
+	comment_message reaction_type_enum NOT NULL, --Plain text support only like youtube
+	constraint fk_post_id_comment foreign key (post_id) references posts(post_id) on delete cascade
+	
+);
