@@ -38,6 +38,11 @@ alter table users alter column id type bigint;
 insert into users(username, email) values ('deepak', 'deepak@gmail.com');
 
 
+-- altering user table to add more things
+
+alter table users add first_name varchar(25);
+alter table users add last_name varchar(25);
+
 -- creting Friends table 
 CREATE TYPE request_status AS ENUM ('ACCEPTED', 'REJECTED', 'PENDING');
 
@@ -86,12 +91,16 @@ on delete cascade;
 insert into friends (user_id, friend_user_id) values (500, 1000);
 
 
+
+
 /*
  * Getting 
  * SQL Error [23503]: ERROR: insert or update on table "friends" violates foreign key constraint "fk_user_id"
   Detail: Key (user_id)=(500) is not present in table "users".
  * 
  */
+
+insert into friends (user_id, friend_user_id) values (1, 3); -- user_id 1-Requester, 3-Approver
 
 
 -- composite key for user_id and friend_user_id
@@ -100,6 +109,9 @@ alter table friends
 add constraint pk_id_friends_table
 primary key (user_id, friend_user_id);
 
+
+
+-- Login
 
 
 
