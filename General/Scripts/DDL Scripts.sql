@@ -178,6 +178,36 @@ alter table conversation_participants add joined_at timestamp default CURRENT_TI
 alter table conversation_participants alter column joined_at set not null;
 
 
+create table messages (
+	message_id SERIAL primary key,
+	conversation_id bigint not null,
+	sender_id bigint not null,
+	body TEXT not null,
+	send_at timestamp default current_timestamp,
+	constraint fk_msg_conversation_id foreign key (conversation_id) references conversations(conversation_id),
+	constraint fk_msg_sender_id foreign key (sender_id) references users(id)
+);
+
+
+-- TODO later add read receipt support & end-to-end encryption
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
