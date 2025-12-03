@@ -10,6 +10,8 @@ CREATE TABLE dummy_user (
 
 select count(1) from dummy_user;
 
+drop table dummy_table;
+
 -- Renaming the table 
 select * from users;
 select * from users_new;
@@ -49,10 +51,14 @@ CREATE TYPE request_status AS ENUM ('ACCEPTED', 'REJECTED', 'PENDING');
 
 create table friends(
 	user_id bigint, -- user_id will be the requester by deault
-	friend_user_id bigint,
+	friend_user_id bigint, -- the user to whom request is been sent to
 	request_status request_status default 'PENDING',
 	request_date timestamp default CURRENT_TIMESTAMP
 )
+
+
+
+
 
 -- linking via foreign key
 -- https://neon.com/postgresql/postgresql-tutorial/postgresql-foreign-key
@@ -149,3 +155,43 @@ CREATE TABLE post_comments (
 	constraint fk_post_id_comment foreign key (post_id) references posts(post_id) on delete cascade
 	
 );
+
+
+-- Chat feature changes
+
+create table conversations (
+	conversation_id SERIAL primary key,
+	name varchar(256) not null,
+	created_at timestamp default CURRENT_TIMESTAMP
+);
+
+create table conversation_participants (
+	conversation_id bigint not null,
+	user_id bigint not null,
+	constraint pk_user_conversation_ids primary key (conversation_id, user_id),
+	constraint fk_conversation_id foreign key (conversation_id) references conversations(conversation_id),
+	constraint fk_user_id foreign key (user_id) references users(id)
+);
+
+alter table conversation_participants add joined_at timestamp default CURRENT_TIMESTAMP;
+
+alter table conversation_participants alter column joined_at set not null;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
