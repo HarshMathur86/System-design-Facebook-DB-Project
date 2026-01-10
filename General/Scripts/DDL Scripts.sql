@@ -191,6 +191,7 @@ create table messages (
 
 -- TODO later add read receipt support & end-to-end encryption
 
+select * from users;
 
 
 
