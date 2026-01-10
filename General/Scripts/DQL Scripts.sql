@@ -19,8 +19,11 @@ update users set username='Harsh' where id=1;
 -- read committed 
 begin transaction isolation level read committed;
 
--- read uncommitted 
+-- read uncommitted  -- does not all dirty reads in Postgres SQL
 begin transaction isolation level read uncommitted;
 
--- SERIALIZABLE 
+-- SERIALIZABLE -- does not use read locks instead use 
+-- internal MVCC(Multi version concurrency control)
+-- & anamoly detection
+-- https://www.postgresql.org/docs/current/transaction-iso.html
 begin transaction isolation level SERIALIZABLE;
